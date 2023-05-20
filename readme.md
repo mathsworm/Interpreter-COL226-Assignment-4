@@ -88,49 +88,50 @@ Apart from this, we can also get errors while creating the abstract syntax tree,
 
 Example test cases :
 
-1 -> RECURSIVE FACTORIAL (to demonstrate that recursion works correctly)
+1. RECURSIVE FACTORIAL 
+(to demonstrate that recursion works correctly)
 
-integer n,f;
-procedure factorial
-{
-  if (n = 0) then {}
-  else
-  {
-    f := f * n;
-    n := n - 1;
-    call factorial;
-  }
-  fi;
-};
+                integer n,f;
+                procedure factorial
+                {
+                  if (n = 0) then {}
+                  else
+                  {
+                    f := f * n;
+                    n := n - 1;
+                    call factorial;
+                  }
+                  fi;
+                };
 
-{
-  read(n);
-  f := 1;
-  call factorial;
-  print(f);
-}
+                {
+                  read(n);
+                  f := 1;
+                  call factorial;
+                  print(f);
+                }
 
 
-2 -> TO DEMONSTRATE SCOPES
+2. TO DEMONSTRATE SCOPES
 
-integer a;
-procedure hello
-integer a;
-{
-    a := 67;
-    print(a);
-};  
-{
-    a := 1;
-    print (a);
-    call hello;
-    print(a);
-}
+                integer a;
+                procedure hello
+                integer a;
+                {
+                    a := 67;
+                    print(a);
+                };  
+                {
+                    a := 1;
+                    print (a);
+                    call hello;
+                    print(a);
+                }
 
-output ->
-1
-67
-1
+output:
+                1
+                67
+                1
 
 
 This lets us ensure that the variable a has the value 1 in the scope of the bottom block, and has the value 67 in the scope defined inside the procedure hello. When we return from the procedure, the outermost declaration of the variable a is the one on the top most line, which had the value 1, and hence 1 is printed.
