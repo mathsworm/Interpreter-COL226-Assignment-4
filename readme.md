@@ -1,4 +1,4 @@
-## RationalPL0 Language
+# RationalPL0 Language
 
 In this assignment, we have designed a programming language which supports basic data types like integers, rationals and booleans. One additional feature of the language is that the rationals and booleans can be of arbitrary length, which is inherited from the rational package which was implemented in assignment 3. 
 
@@ -48,9 +48,9 @@ Instructions for use :
 - Use the execute function, specifying the input and output files
 
 
-Implementation Overview => 
+## Implementation Overview 
 
-Phases:
+### Phases
 - Lexical analysis - The lexer first classifies the lexemes based on regexes.
 - Parsing - The parser then creates an AST based on the nodes which are defined as in the datatypes file
 - Type checking - Typechecking is done in at runtime using the checkBool, checkInt, checkRat functions in the compiler file. This is done during the actual traversal of the abstract syntax tree. 
@@ -58,13 +58,13 @@ Phases:
 - Variables are stored in symbol tables. 
 
 
-Scoping:
+### Scoping
 - Scoping is implemented using a list of symbol tables. The first element represents the variables declared in the current scope. To search for a variable, we must start searching from the head of the list and traverse backwards recursively, to ensure that we use the most recently declared instance of a variable. 
 - Whenever we start the execution of a block, we append a new empty scope at the start of the list, and enter all information about fresh declarations in this new symbol table. 
 - Whenever the execution of a  block ends, we must pop the most recent scope. This is to ensure that the variables local to that block do not get used elsewhere. 
 
 
-Design decisions : 
+### Design decisions 
 - The make_rat function takes inputs within parantheses - make_rat(x,y) where x and y are both integer expressions.
 - rational numbers are printed in decimal normal form in the output. 
 - Each of the print statements give their output in a new line.
@@ -74,7 +74,7 @@ Design decisions :
     a div b = sgn(a) * sgn(b) * (abs(a) div abs(b))
     a mod b = a - b * (a div b)
 
-Exceptions : 
+### Exceptions 
 Exceptions are raised at runtime
 - if we redeclare variables in the same scope. 
 - if we assign values of the wrong type to a variable. 
@@ -86,75 +86,74 @@ Apart from this, we can also get errors while creating the abstract syntax tree,
 
 
 
-Example test cases :
+### Example test cases
 
 1. RECURSIVE FACTORIAL 
 (to demonstrate that recursion works correctly)
 
-                integer n,f;
-                procedure factorial
-                {
-                  if (n = 0) then {}
-                  else
-                  {
-                    f := f * n;
-                    n := n - 1;
-                    call factorial;
-                  }
-                  fi;
-                };
+        integer n,f;
+        procedure factorial
+        {
+          if (n = 0) then {}
+          else
+          {
+            f := f * n;
+            n := n - 1;
+            call factorial;
+          }
+          fi;
+        };
 
-                {
-                  read(n);
-                  f := 1;
-                  call factorial;
-                  print(f);
-                }
+        {
+          read(n);
+          f := 1;
+          call factorial;
+          print(f);
+        }
 
 
 2. TO DEMONSTRATE SCOPES
 
-                integer a;
-                procedure hello
-                integer a;
-                {
-                    a := 67;
-                    print(a);
-                };  
-                {
-                    a := 1;
-                    print (a);
-                    call hello;
-                    print(a);
-                }
+        integer a;
+        procedure hello
+        integer a;
+        {
+            a := 67;
+            print(a);
+        };  
+        {
+            a := 1;
+            print (a);
+            call hello;
+            print(a);
+        }
 
 output:
-                1
-                67
-                1
+        1
+        67
+        1
 
 
 This lets us ensure that the variable a has the value 1 in the scope of the bottom block, and has the value 67 in the scope defined inside the procedure hello. When we return from the procedure, the outermost declaration of the variable a is the one on the top most line, which had the value 1, and hence 1 is printed.
 
 
-Examples of incorrect syntax that raises errors : 
+Examples of incorrect syntax that raises errors:
 
-
-integer x;
-{
-    x := tt;
-}
+        integer x;
+        {
+            x := tt;
+        }
 This raises the exception ErrorInEvaluation
 
 
-integer x;
-{
-    x := 1 .+. 1;
-}
+        integer x;
+        {
+            x := 1 .+. 1;
+        }
 This also raises the exception ErrorInEvaluation
 
 
-Acknowledgements :
+## Acknowledgements
 
 The following sources have been used and consulted while doing the assignment, namely
 * http://rogerprice.org/ug/ug.pdf
