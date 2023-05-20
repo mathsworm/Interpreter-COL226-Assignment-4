@@ -1,0 +1,2862 @@
+
+state 0:
+
+	prog : . block 
+
+	T_RAT	shift 12
+	T_INT	shift 11
+	T_BOOL	shift 10
+	T_LCURLY	reduce by rule 5
+	T_PROCEDURE	shift 9
+
+	prog	goto 130
+	block	goto 8
+	decl_seq	goto 7
+	var_decl	goto 6
+	proc_decl	goto 5
+	proc_def	goto 4
+	ratvar_decl	goto 3
+	boolvar_decl	goto 2
+	intvar_decl	goto 1
+
+	.	error
+
+
+state 1:
+
+	var_decl : intvar_decl . boolvar_decl 
+	var_decl : intvar_decl .  (reduce by rule 11)
+
+	T_BOOL	shift 10
+	T_LCURLY	reduce by rule 11
+	T_PROCEDURE	reduce by rule 11
+
+	boolvar_decl	goto 13
+
+	.	error
+
+
+state 2:
+
+	var_decl : boolvar_decl .  (reduce by rule 12)
+
+	T_LCURLY	reduce by rule 12
+	T_PROCEDURE	reduce by rule 12
+
+
+	.	error
+
+
+state 3:
+
+	var_decl : ratvar_decl . intvar_decl boolvar_decl 
+	var_decl : ratvar_decl . intvar_decl 
+	var_decl : ratvar_decl . boolvar_decl 
+	var_decl : ratvar_decl .  (reduce by rule 10)
+
+	T_INT	shift 11
+	T_BOOL	shift 10
+	T_LCURLY	reduce by rule 10
+	T_PROCEDURE	reduce by rule 10
+
+	boolvar_decl	goto 15
+	intvar_decl	goto 14
+
+	.	error
+
+
+state 4:
+
+	proc_decl : proc_def . T_SEMI proc_decl 
+	proc_decl : proc_def . T_SEMI 
+
+	T_SEMI	shift 16
+
+
+	.	error
+
+
+state 5:
+
+	decl_seq : proc_decl .  (reduce by rule 4)
+
+	T_LCURLY	reduce by rule 4
+
+
+	.	error
+
+
+state 6:
+
+	decl_seq : var_decl . proc_decl 
+	decl_seq : var_decl .  (reduce by rule 3)
+
+	T_LCURLY	reduce by rule 3
+	T_PROCEDURE	shift 9
+
+	proc_decl	goto 17
+	proc_def	goto 4
+
+	.	error
+
+
+state 7:
+
+	block : decl_seq . cmd_seq 
+
+	T_LCURLY	shift 19
+
+	cmd_seq	goto 18
+
+	.	error
+
+
+state 8:
+
+	prog : block .  (reduce by rule 0)
+
+	EOF	reduce by rule 0
+
+
+	.	error
+
+
+state 9:
+
+	proc_def : T_PROCEDURE . T_IDENT block 
+
+	T_IDENT	shift 20
+
+
+	.	error
+
+
+state 10:
+
+	boolvar_decl : T_BOOL . idents_bool T_SEMI 
+
+	T_IDENT	shift 22
+
+	idents_bool	goto 21
+
+	.	error
+
+
+state 11:
+
+	intvar_decl : T_INT . idents_int T_SEMI 
+
+	T_IDENT	shift 24
+
+	idents_int	goto 23
+
+	.	error
+
+
+state 12:
+
+	ratvar_decl : T_RAT . idents_rat T_SEMI 
+
+	T_IDENT	shift 26
+
+	idents_rat	goto 25
+
+	.	error
+
+
+state 13:
+
+	var_decl : intvar_decl boolvar_decl .  (reduce by rule 9)
+
+	T_LCURLY	reduce by rule 9
+	T_PROCEDURE	reduce by rule 9
+
+
+	.	error
+
+
+state 14:
+
+	var_decl : ratvar_decl intvar_decl . boolvar_decl 
+	var_decl : ratvar_decl intvar_decl .  (reduce by rule 7)
+
+	T_BOOL	shift 10
+	T_LCURLY	reduce by rule 7
+	T_PROCEDURE	reduce by rule 7
+
+	boolvar_decl	goto 27
+
+	.	error
+
+
+state 15:
+
+	var_decl : ratvar_decl boolvar_decl .  (reduce by rule 8)
+
+	T_LCURLY	reduce by rule 8
+	T_PROCEDURE	reduce by rule 8
+
+
+	.	error
+
+
+state 16:
+
+	proc_decl : proc_def T_SEMI . proc_decl 
+	proc_decl : proc_def T_SEMI .  (reduce by rule 23)
+
+	T_LCURLY	reduce by rule 23
+	T_PROCEDURE	shift 9
+
+	proc_decl	goto 28
+	proc_def	goto 4
+
+	.	error
+
+
+state 17:
+
+	decl_seq : var_decl proc_decl .  (reduce by rule 2)
+
+	T_LCURLY	reduce by rule 2
+
+
+	.	error
+
+
+state 18:
+
+	block : decl_seq cmd_seq .  (reduce by rule 1)
+
+	T_SEMI	reduce by rule 1
+	EOF	reduce by rule 1
+
+
+	.	error
+
+
+state 19:
+
+	cmd_seq : T_LCURLY . cmds T_RCURLY 
+
+	T_IDENT	shift 42
+	T_RCURLY	reduce by rule 33
+	T_CALL	shift 41
+	T_READ	shift 40
+	T_PRINT	shift 39
+	T_WHILE	shift 38
+	T_IF	shift 37
+
+	cmds	goto 36
+	cmd	goto 35
+	assign_cmd	goto 34
+	while_cmd	goto 33
+	print_cmd	goto 32
+	call_cmd	goto 31
+	read_cmd	goto 30
+	if_cmd	goto 29
+
+	.	error
+
+
+state 20:
+
+	proc_def : T_PROCEDURE T_IDENT . block 
+
+	T_RAT	shift 12
+	T_INT	shift 11
+	T_BOOL	shift 10
+	T_LCURLY	reduce by rule 5
+	T_PROCEDURE	shift 9
+
+	block	goto 43
+	decl_seq	goto 7
+	var_decl	goto 6
+	proc_decl	goto 5
+	proc_def	goto 4
+	ratvar_decl	goto 3
+	boolvar_decl	goto 2
+	intvar_decl	goto 1
+
+	.	error
+
+
+state 21:
+
+	boolvar_decl : T_BOOL idents_bool . T_SEMI 
+
+	T_SEMI	shift 44
+
+
+	.	error
+
+
+state 22:
+
+	idents_bool : T_IDENT . T_COMMA idents_bool 
+	idents_bool : T_IDENT .  (reduce by rule 21)
+
+	T_COMMA	shift 45
+	T_SEMI	reduce by rule 21
+
+
+	.	error
+
+
+state 23:
+
+	intvar_decl : T_INT idents_int . T_SEMI 
+
+	T_SEMI	shift 46
+
+
+	.	error
+
+
+state 24:
+
+	idents_int : T_IDENT . T_COMMA idents_int 
+	idents_int : T_IDENT .  (reduce by rule 19)
+
+	T_COMMA	shift 47
+	T_SEMI	reduce by rule 19
+
+
+	.	error
+
+
+state 25:
+
+	ratvar_decl : T_RAT idents_rat . T_SEMI 
+
+	T_SEMI	shift 48
+
+
+	.	error
+
+
+state 26:
+
+	idents_rat : T_IDENT . T_COMMA idents_rat 
+	idents_rat : T_IDENT .  (reduce by rule 17)
+
+	T_COMMA	shift 49
+	T_SEMI	reduce by rule 17
+
+
+	.	error
+
+
+state 27:
+
+	var_decl : ratvar_decl intvar_decl boolvar_decl .  (reduce by rule 6)
+
+	T_LCURLY	reduce by rule 6
+	T_PROCEDURE	reduce by rule 6
+
+
+	.	error
+
+
+state 28:
+
+	proc_decl : proc_def T_SEMI proc_decl .  (reduce by rule 22)
+
+	T_LCURLY	reduce by rule 22
+
+
+	.	error
+
+
+state 29:
+
+	cmd : if_cmd .  (reduce by rule 39)
+
+	T_SEMI	reduce by rule 39
+
+
+	.	error
+
+
+state 30:
+
+	cmd : read_cmd .  (reduce by rule 38)
+
+	T_SEMI	reduce by rule 38
+
+
+	.	error
+
+
+state 31:
+
+	cmd : call_cmd .  (reduce by rule 37)
+
+	T_SEMI	reduce by rule 37
+
+
+	.	error
+
+
+state 32:
+
+	cmd : print_cmd .  (reduce by rule 35)
+
+	T_SEMI	reduce by rule 35
+
+
+	.	error
+
+
+state 33:
+
+	cmd : while_cmd .  (reduce by rule 36)
+
+	T_SEMI	reduce by rule 36
+
+
+	.	error
+
+
+state 34:
+
+	cmd : assign_cmd .  (reduce by rule 34)
+
+	T_SEMI	reduce by rule 34
+
+
+	.	error
+
+
+state 35:
+
+	cmds : cmd . T_SEMI cmds 
+
+	T_SEMI	shift 50
+
+
+	.	error
+
+
+state 36:
+
+	cmd_seq : T_LCURLY cmds . T_RCURLY 
+
+	T_RCURLY	shift 51
+
+
+	.	error
+
+
+state 37:
+
+	if_cmd : T_IF . exp T_THEN cmd_seq T_ELSE cmd_seq T_FI 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 52
+
+	.	error
+
+
+state 38:
+
+	while_cmd : T_WHILE . exp T_DO cmd_seq T_OD 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 63
+
+	.	error
+
+
+state 39:
+
+	print_cmd : T_PRINT . T_LPAREN exp T_RPAREN 
+
+	T_LPAREN	shift 64
+
+
+	.	error
+
+
+state 40:
+
+	read_cmd : T_READ . T_LPAREN T_IDENT T_RPAREN 
+
+	T_LPAREN	shift 65
+
+
+	.	error
+
+
+state 41:
+
+	call_cmd : T_CALL . T_IDENT 
+
+	T_IDENT	shift 66
+
+
+	.	error
+
+
+state 42:
+
+	assign_cmd : T_IDENT . T_ASSIGN exp 
+
+	T_ASSIGN	shift 67
+
+
+	.	error
+
+
+state 43:
+
+	proc_def : T_PROCEDURE T_IDENT block .  (reduce by rule 24)
+
+	T_SEMI	reduce by rule 24
+
+
+	.	error
+
+
+state 44:
+
+	boolvar_decl : T_BOOL idents_bool T_SEMI .  (reduce by rule 15)
+
+	T_LCURLY	reduce by rule 15
+	T_PROCEDURE	reduce by rule 15
+
+
+	.	error
+
+
+state 45:
+
+	idents_bool : T_IDENT T_COMMA . idents_bool 
+
+	T_IDENT	shift 22
+
+	idents_bool	goto 68
+
+	.	error
+
+
+state 46:
+
+	intvar_decl : T_INT idents_int T_SEMI .  (reduce by rule 14)
+
+	T_BOOL	reduce by rule 14
+	T_LCURLY	reduce by rule 14
+	T_PROCEDURE	reduce by rule 14
+
+
+	.	error
+
+
+state 47:
+
+	idents_int : T_IDENT T_COMMA . idents_int 
+
+	T_IDENT	shift 24
+
+	idents_int	goto 69
+
+	.	error
+
+
+state 48:
+
+	ratvar_decl : T_RAT idents_rat T_SEMI .  (reduce by rule 13)
+
+	T_INT	reduce by rule 13
+	T_BOOL	reduce by rule 13
+	T_LCURLY	reduce by rule 13
+	T_PROCEDURE	reduce by rule 13
+
+
+	.	error
+
+
+state 49:
+
+	idents_rat : T_IDENT T_COMMA . idents_rat 
+
+	T_IDENT	shift 26
+
+	idents_rat	goto 70
+
+	.	error
+
+
+state 50:
+
+	cmds : cmd T_SEMI . cmds 
+
+	T_IDENT	shift 42
+	T_RCURLY	reduce by rule 33
+	T_CALL	shift 41
+	T_READ	shift 40
+	T_PRINT	shift 39
+	T_WHILE	shift 38
+	T_IF	shift 37
+
+	cmds	goto 71
+	cmd	goto 35
+	assign_cmd	goto 34
+	while_cmd	goto 33
+	print_cmd	goto 32
+	call_cmd	goto 31
+	read_cmd	goto 30
+	if_cmd	goto 29
+
+	.	error
+
+
+state 51:
+
+	cmd_seq : T_LCURLY cmds T_RCURLY .  (reduce by rule 31)
+
+	T_SEMI	reduce by rule 31
+	T_OD	reduce by rule 31
+	T_ELSE	reduce by rule 31
+	T_FI	reduce by rule 31
+	EOF	reduce by rule 31
+
+
+	.	error
+
+
+state 52:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	if_cmd : T_IF exp . T_THEN cmd_seq T_ELSE cmd_seq T_FI 
+
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_THEN	shift 78
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 53:
+
+	exp : T_ADDINV . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 90
+
+	.	error
+
+
+state 54:
+
+	exp : T_INTVAL .  (reduce by rule 58)
+
+	T_COMMA	reduce by rule 58
+	T_SEMI	reduce by rule 58
+	T_AND	reduce by rule 58
+	T_OR	reduce by rule 58
+	T_RPAREN	reduce by rule 58
+	T_RATADD	reduce by rule 58
+	T_RATSUB	reduce by rule 58
+	T_RATMUL	reduce by rule 58
+	T_RATDIV	reduce by rule 58
+	T_INTADD	reduce by rule 58
+	T_INTSUB	reduce by rule 58
+	T_INTMUL	reduce by rule 58
+	T_INTDIV	reduce by rule 58
+	T_INTMOD	reduce by rule 58
+	T_DO	reduce by rule 58
+	T_THEN	reduce by rule 58
+	T_LE	reduce by rule 58
+	T_GE	reduce by rule 58
+	T_LT	reduce by rule 58
+	T_GT	reduce by rule 58
+	T_EQ	reduce by rule 58
+	T_NEQ	reduce by rule 58
+
+
+	.	error
+
+
+state 55:
+
+	exp : T_RATVAL .  (reduce by rule 66)
+
+	T_COMMA	reduce by rule 66
+	T_SEMI	reduce by rule 66
+	T_AND	reduce by rule 66
+	T_OR	reduce by rule 66
+	T_RPAREN	reduce by rule 66
+	T_RATADD	reduce by rule 66
+	T_RATSUB	reduce by rule 66
+	T_RATMUL	reduce by rule 66
+	T_RATDIV	reduce by rule 66
+	T_INTADD	reduce by rule 66
+	T_INTSUB	reduce by rule 66
+	T_INTMUL	reduce by rule 66
+	T_INTDIV	reduce by rule 66
+	T_INTMOD	reduce by rule 66
+	T_DO	reduce by rule 66
+	T_THEN	reduce by rule 66
+	T_LE	reduce by rule 66
+	T_GE	reduce by rule 66
+	T_LT	reduce by rule 66
+	T_GT	reduce by rule 66
+	T_EQ	reduce by rule 66
+	T_NEQ	reduce by rule 66
+
+
+	.	error
+
+
+state 56:
+
+	exp : T_RATFROMINT . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 91
+
+	.	error
+
+
+state 57:
+
+	exp : T_MAKERAT . T_LPAREN exp T_COMMA exp T_RPAREN 
+
+	T_LPAREN	shift 92
+
+
+	.	error
+
+
+state 58:
+
+	exp : T_INVERSE . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 93
+
+	.	error
+
+
+state 59:
+
+	exp : T_LPAREN . exp T_RPAREN 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 94
+
+	.	error
+
+
+state 60:
+
+	exp : T_NOT . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 95
+
+	.	error
+
+
+state 61:
+
+	exp : T_BOOLVAL .  (reduce by rule 41)
+
+	T_COMMA	reduce by rule 41
+	T_SEMI	reduce by rule 41
+	T_AND	reduce by rule 41
+	T_OR	reduce by rule 41
+	T_RPAREN	reduce by rule 41
+	T_RATADD	reduce by rule 41
+	T_RATSUB	reduce by rule 41
+	T_RATMUL	reduce by rule 41
+	T_RATDIV	reduce by rule 41
+	T_INTADD	reduce by rule 41
+	T_INTSUB	reduce by rule 41
+	T_INTMUL	reduce by rule 41
+	T_INTDIV	reduce by rule 41
+	T_INTMOD	reduce by rule 41
+	T_DO	reduce by rule 41
+	T_THEN	reduce by rule 41
+	T_LE	reduce by rule 41
+	T_GE	reduce by rule 41
+	T_LT	reduce by rule 41
+	T_GT	reduce by rule 41
+	T_EQ	reduce by rule 41
+	T_NEQ	reduce by rule 41
+
+
+	.	error
+
+
+state 62:
+
+	exp : T_IDENT .  (reduce by rule 40)
+
+	T_COMMA	reduce by rule 40
+	T_SEMI	reduce by rule 40
+	T_AND	reduce by rule 40
+	T_OR	reduce by rule 40
+	T_RPAREN	reduce by rule 40
+	T_RATADD	reduce by rule 40
+	T_RATSUB	reduce by rule 40
+	T_RATMUL	reduce by rule 40
+	T_RATDIV	reduce by rule 40
+	T_INTADD	reduce by rule 40
+	T_INTSUB	reduce by rule 40
+	T_INTMUL	reduce by rule 40
+	T_INTDIV	reduce by rule 40
+	T_INTMOD	reduce by rule 40
+	T_DO	reduce by rule 40
+	T_THEN	reduce by rule 40
+	T_LE	reduce by rule 40
+	T_GE	reduce by rule 40
+	T_LT	reduce by rule 40
+	T_GT	reduce by rule 40
+	T_EQ	reduce by rule 40
+	T_NEQ	reduce by rule 40
+
+
+	.	error
+
+
+state 63:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	while_cmd : T_WHILE exp . T_DO cmd_seq T_OD 
+
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	shift 96
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 64:
+
+	print_cmd : T_PRINT T_LPAREN . exp T_RPAREN 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 97
+
+	.	error
+
+
+state 65:
+
+	read_cmd : T_READ T_LPAREN . T_IDENT T_RPAREN 
+
+	T_IDENT	shift 98
+
+
+	.	error
+
+
+state 66:
+
+	call_cmd : T_CALL T_IDENT .  (reduce by rule 26)
+
+	T_SEMI	reduce by rule 26
+
+
+	.	error
+
+
+state 67:
+
+	assign_cmd : T_IDENT T_ASSIGN . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 99
+
+	.	error
+
+
+state 68:
+
+	idents_bool : T_IDENT T_COMMA idents_bool .  (reduce by rule 20)
+
+	T_SEMI	reduce by rule 20
+
+
+	.	error
+
+
+state 69:
+
+	idents_int : T_IDENT T_COMMA idents_int .  (reduce by rule 18)
+
+	T_SEMI	reduce by rule 18
+
+
+	.	error
+
+
+state 70:
+
+	idents_rat : T_IDENT T_COMMA idents_rat .  (reduce by rule 16)
+
+	T_SEMI	reduce by rule 16
+
+
+	.	error
+
+
+state 71:
+
+	cmds : cmd T_SEMI cmds .  (reduce by rule 32)
+
+	T_RCURLY	reduce by rule 32
+
+
+	.	error
+
+
+state 72:
+
+	exp : exp T_NEQ . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 100
+
+	.	error
+
+
+state 73:
+
+	exp : exp T_EQ . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 101
+
+	.	error
+
+
+state 74:
+
+	exp : exp T_GT . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 102
+
+	.	error
+
+
+state 75:
+
+	exp : exp T_LT . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 103
+
+	.	error
+
+
+state 76:
+
+	exp : exp T_GE . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 104
+
+	.	error
+
+
+state 77:
+
+	exp : exp T_LE . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 105
+
+	.	error
+
+
+state 78:
+
+	if_cmd : T_IF exp T_THEN . cmd_seq T_ELSE cmd_seq T_FI 
+
+	T_LCURLY	shift 19
+
+	cmd_seq	goto 106
+
+	.	error
+
+
+state 79:
+
+	exp : exp T_INTMOD . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 107
+
+	.	error
+
+
+state 80:
+
+	exp : exp T_INTDIV . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 108
+
+	.	error
+
+
+state 81:
+
+	exp : exp T_INTMUL . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 109
+
+	.	error
+
+
+state 82:
+
+	exp : exp T_INTSUB . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 110
+
+	.	error
+
+
+state 83:
+
+	exp : exp T_INTADD . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 111
+
+	.	error
+
+
+state 84:
+
+	exp : exp T_RATDIV . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 112
+
+	.	error
+
+
+state 85:
+
+	exp : exp T_RATMUL . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 113
+
+	.	error
+
+
+state 86:
+
+	exp : exp T_RATSUB . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 114
+
+	.	error
+
+
+state 87:
+
+	exp : exp T_RATADD . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 115
+
+	.	error
+
+
+state 88:
+
+	exp : exp T_OR . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 116
+
+	.	error
+
+
+state 89:
+
+	exp : exp T_AND . exp 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 117
+
+	.	error
+
+
+state 90:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : T_ADDINV exp .  (reduce by rule 57)
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 57
+	T_SEMI	reduce by rule 57
+	T_AND	reduce by rule 57
+	T_OR	reduce by rule 57
+	T_RPAREN	reduce by rule 57
+	T_RATADD	reduce by rule 57
+	T_RATSUB	reduce by rule 57
+	T_RATMUL	reduce by rule 57
+	T_RATDIV	reduce by rule 57
+	T_INTADD	reduce by rule 57
+	T_INTSUB	reduce by rule 57
+	T_INTMUL	reduce by rule 57
+	T_INTDIV	reduce by rule 57
+	T_INTMOD	reduce by rule 57
+	T_DO	reduce by rule 57
+	T_THEN	reduce by rule 57
+	T_LE	reduce by rule 57
+	T_GE	reduce by rule 57
+	T_LT	reduce by rule 57
+	T_GT	reduce by rule 57
+	T_EQ	reduce by rule 57
+	T_NEQ	reduce by rule 57
+
+
+	.	error
+
+
+state 91:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	exp : T_RATFROMINT exp .  (reduce by rule 65)
+
+	T_COMMA	reduce by rule 65
+	T_SEMI	reduce by rule 65
+	T_AND	reduce by rule 65
+	T_OR	reduce by rule 65
+	T_RPAREN	reduce by rule 65
+	T_RATADD	reduce by rule 65
+	T_RATSUB	reduce by rule 65
+	T_RATMUL	reduce by rule 65
+	T_RATDIV	reduce by rule 65
+	T_INTADD	reduce by rule 65
+	T_INTSUB	reduce by rule 65
+	T_INTMUL	reduce by rule 65
+	T_INTDIV	reduce by rule 65
+	T_INTMOD	reduce by rule 65
+	T_DO	reduce by rule 65
+	T_THEN	reduce by rule 65
+	T_LE	reduce by rule 65
+	T_GE	reduce by rule 65
+	T_LT	reduce by rule 65
+	T_GT	reduce by rule 65
+	T_EQ	reduce by rule 65
+	T_NEQ	reduce by rule 65
+
+
+	.	error
+
+
+state 92:
+
+	exp : T_MAKERAT T_LPAREN . exp T_COMMA exp T_RPAREN 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 118
+
+	.	error
+
+
+state 93:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	exp : T_INVERSE exp .  (reduce by rule 63)
+
+	T_COMMA	reduce by rule 63
+	T_SEMI	reduce by rule 63
+	T_AND	reduce by rule 63
+	T_OR	reduce by rule 63
+	T_RPAREN	reduce by rule 63
+	T_RATADD	reduce by rule 63
+	T_RATSUB	reduce by rule 63
+	T_RATMUL	reduce by rule 63
+	T_RATDIV	reduce by rule 63
+	T_INTADD	reduce by rule 63
+	T_INTSUB	reduce by rule 63
+	T_INTMUL	reduce by rule 63
+	T_INTDIV	reduce by rule 63
+	T_INTMOD	reduce by rule 63
+	T_DO	reduce by rule 63
+	T_THEN	reduce by rule 63
+	T_LE	reduce by rule 63
+	T_GE	reduce by rule 63
+	T_LT	reduce by rule 63
+	T_GT	reduce by rule 63
+	T_EQ	reduce by rule 63
+	T_NEQ	reduce by rule 63
+
+
+	.	error
+
+
+state 94:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : T_LPAREN exp . T_RPAREN 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RPAREN	shift 119
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 95:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : T_NOT exp .  (reduce by rule 50)
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 50
+	T_SEMI	reduce by rule 50
+	T_AND	reduce by rule 50
+	T_OR	reduce by rule 50
+	T_RPAREN	reduce by rule 50
+	T_RATADD	reduce by rule 50
+	T_RATSUB	reduce by rule 50
+	T_RATMUL	reduce by rule 50
+	T_RATDIV	reduce by rule 50
+	T_INTADD	reduce by rule 50
+	T_INTSUB	reduce by rule 50
+	T_INTMUL	reduce by rule 50
+	T_INTDIV	reduce by rule 50
+	T_INTMOD	reduce by rule 50
+	T_DO	reduce by rule 50
+	T_THEN	reduce by rule 50
+	T_LE	reduce by rule 50
+	T_GE	reduce by rule 50
+	T_LT	reduce by rule 50
+	T_GT	reduce by rule 50
+	T_EQ	reduce by rule 50
+	T_NEQ	reduce by rule 50
+
+
+	.	error
+
+
+state 96:
+
+	while_cmd : T_WHILE exp T_DO . cmd_seq T_OD 
+
+	T_LCURLY	shift 19
+
+	cmd_seq	goto 120
+
+	.	error
+
+
+state 97:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	print_cmd : T_PRINT T_LPAREN exp . T_RPAREN 
+
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RPAREN	shift 121
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 98:
+
+	read_cmd : T_READ T_LPAREN T_IDENT . T_RPAREN 
+
+	T_RPAREN	shift 122
+
+
+	.	error
+
+
+state 99:
+
+	assign_cmd : T_IDENT T_ASSIGN exp .  (reduce by rule 25)
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_SEMI	reduce by rule 25
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 100:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp T_NEQ exp .  (reduce by rule 47)
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 47
+	T_SEMI	reduce by rule 47
+	T_AND	reduce by rule 47
+	T_OR	reduce by rule 47
+	T_RPAREN	reduce by rule 47
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 47
+	T_THEN	reduce by rule 47
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	reduce by rule 47
+	T_NEQ	reduce by rule 47
+
+
+	.	error
+
+
+state 101:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp T_EQ exp .  (reduce by rule 46)
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 46
+	T_SEMI	reduce by rule 46
+	T_AND	reduce by rule 46
+	T_OR	reduce by rule 46
+	T_RPAREN	reduce by rule 46
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 46
+	T_THEN	reduce by rule 46
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	reduce by rule 46
+	T_NEQ	reduce by rule 46
+
+
+	.	error
+
+
+state 102:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp T_GT exp .  (reduce by rule 45)
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 45
+	T_SEMI	reduce by rule 45
+	T_AND	reduce by rule 45
+	T_OR	reduce by rule 45
+	T_RPAREN	reduce by rule 45
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 45
+	T_THEN	reduce by rule 45
+	T_LE	reduce by rule 45
+	T_GE	reduce by rule 45
+	T_LT	reduce by rule 45
+	T_GT	reduce by rule 45
+	T_EQ	reduce by rule 45
+	T_NEQ	reduce by rule 45
+
+
+	.	error
+
+
+state 103:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp T_LT exp .  (reduce by rule 44)
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 44
+	T_SEMI	reduce by rule 44
+	T_AND	reduce by rule 44
+	T_OR	reduce by rule 44
+	T_RPAREN	reduce by rule 44
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 44
+	T_THEN	reduce by rule 44
+	T_LE	reduce by rule 44
+	T_GE	reduce by rule 44
+	T_LT	reduce by rule 44
+	T_GT	reduce by rule 44
+	T_EQ	reduce by rule 44
+	T_NEQ	reduce by rule 44
+
+
+	.	error
+
+
+state 104:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp T_GE exp .  (reduce by rule 43)
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 43
+	T_SEMI	reduce by rule 43
+	T_AND	reduce by rule 43
+	T_OR	reduce by rule 43
+	T_RPAREN	reduce by rule 43
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 43
+	T_THEN	reduce by rule 43
+	T_LE	reduce by rule 43
+	T_GE	reduce by rule 43
+	T_LT	reduce by rule 43
+	T_GT	reduce by rule 43
+	T_EQ	reduce by rule 43
+	T_NEQ	reduce by rule 43
+
+
+	.	error
+
+
+state 105:
+
+	exp : exp . T_LE exp 
+	exp : exp T_LE exp .  (reduce by rule 42)
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 42
+	T_SEMI	reduce by rule 42
+	T_AND	reduce by rule 42
+	T_OR	reduce by rule 42
+	T_RPAREN	reduce by rule 42
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 42
+	T_THEN	reduce by rule 42
+	T_LE	reduce by rule 42
+	T_GE	reduce by rule 42
+	T_LT	reduce by rule 42
+	T_GT	reduce by rule 42
+	T_EQ	reduce by rule 42
+	T_NEQ	reduce by rule 42
+
+
+	.	error
+
+
+state 106:
+
+	if_cmd : T_IF exp T_THEN cmd_seq . T_ELSE cmd_seq T_FI 
+
+	T_ELSE	shift 123
+
+
+	.	error
+
+
+state 107:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp T_INTMOD exp .  (reduce by rule 56)
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 56
+	T_SEMI	reduce by rule 56
+	T_AND	reduce by rule 56
+	T_OR	reduce by rule 56
+	T_RPAREN	reduce by rule 56
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 56
+	T_INTSUB	reduce by rule 56
+	T_INTMUL	reduce by rule 56
+	T_INTDIV	reduce by rule 56
+	T_INTMOD	reduce by rule 56
+	T_DO	reduce by rule 56
+	T_THEN	reduce by rule 56
+	T_LE	reduce by rule 56
+	T_GE	reduce by rule 56
+	T_LT	reduce by rule 56
+	T_GT	reduce by rule 56
+	T_EQ	reduce by rule 56
+	T_NEQ	reduce by rule 56
+
+
+	.	error
+
+
+state 108:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp T_INTDIV exp .  (reduce by rule 55)
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 55
+	T_SEMI	reduce by rule 55
+	T_AND	reduce by rule 55
+	T_OR	reduce by rule 55
+	T_RPAREN	reduce by rule 55
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 55
+	T_INTSUB	reduce by rule 55
+	T_INTMUL	reduce by rule 55
+	T_INTDIV	reduce by rule 55
+	T_INTMOD	reduce by rule 55
+	T_DO	reduce by rule 55
+	T_THEN	reduce by rule 55
+	T_LE	reduce by rule 55
+	T_GE	reduce by rule 55
+	T_LT	reduce by rule 55
+	T_GT	reduce by rule 55
+	T_EQ	reduce by rule 55
+	T_NEQ	reduce by rule 55
+
+
+	.	error
+
+
+state 109:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp T_INTMUL exp .  (reduce by rule 54)
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 54
+	T_SEMI	reduce by rule 54
+	T_AND	reduce by rule 54
+	T_OR	reduce by rule 54
+	T_RPAREN	reduce by rule 54
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 54
+	T_INTSUB	reduce by rule 54
+	T_INTMUL	reduce by rule 54
+	T_INTDIV	reduce by rule 54
+	T_INTMOD	reduce by rule 54
+	T_DO	reduce by rule 54
+	T_THEN	reduce by rule 54
+	T_LE	reduce by rule 54
+	T_GE	reduce by rule 54
+	T_LT	reduce by rule 54
+	T_GT	reduce by rule 54
+	T_EQ	reduce by rule 54
+	T_NEQ	reduce by rule 54
+
+
+	.	error
+
+
+state 110:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp T_INTSUB exp .  (reduce by rule 53)
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 53
+	T_SEMI	reduce by rule 53
+	T_AND	reduce by rule 53
+	T_OR	reduce by rule 53
+	T_RPAREN	reduce by rule 53
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 53
+	T_INTSUB	reduce by rule 53
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 53
+	T_THEN	reduce by rule 53
+	T_LE	reduce by rule 53
+	T_GE	reduce by rule 53
+	T_LT	reduce by rule 53
+	T_GT	reduce by rule 53
+	T_EQ	reduce by rule 53
+	T_NEQ	reduce by rule 53
+
+
+	.	error
+
+
+state 111:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp T_INTADD exp .  (reduce by rule 52)
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 52
+	T_SEMI	reduce by rule 52
+	T_AND	reduce by rule 52
+	T_OR	reduce by rule 52
+	T_RPAREN	reduce by rule 52
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 52
+	T_INTSUB	reduce by rule 52
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 52
+	T_THEN	reduce by rule 52
+	T_LE	reduce by rule 52
+	T_GE	reduce by rule 52
+	T_LT	reduce by rule 52
+	T_GT	reduce by rule 52
+	T_EQ	reduce by rule 52
+	T_NEQ	reduce by rule 52
+
+
+	.	error
+
+
+state 112:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	exp : exp T_RATDIV exp .  (reduce by rule 62)
+
+	T_COMMA	reduce by rule 62
+	T_SEMI	reduce by rule 62
+	T_AND	reduce by rule 62
+	T_OR	reduce by rule 62
+	T_RPAREN	reduce by rule 62
+	T_RATADD	reduce by rule 62
+	T_RATSUB	reduce by rule 62
+	T_RATMUL	reduce by rule 62
+	T_RATDIV	reduce by rule 62
+	T_INTADD	reduce by rule 62
+	T_INTSUB	reduce by rule 62
+	T_INTMUL	reduce by rule 62
+	T_INTDIV	reduce by rule 62
+	T_INTMOD	reduce by rule 62
+	T_DO	reduce by rule 62
+	T_THEN	reduce by rule 62
+	T_LE	reduce by rule 62
+	T_GE	reduce by rule 62
+	T_LT	reduce by rule 62
+	T_GT	reduce by rule 62
+	T_EQ	reduce by rule 62
+	T_NEQ	reduce by rule 62
+
+
+	.	error
+
+
+state 113:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp T_RATMUL exp .  (reduce by rule 61)
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 61
+	T_SEMI	reduce by rule 61
+	T_AND	reduce by rule 61
+	T_OR	reduce by rule 61
+	T_RPAREN	reduce by rule 61
+	T_RATADD	reduce by rule 61
+	T_RATSUB	reduce by rule 61
+	T_RATMUL	reduce by rule 61
+	T_RATDIV	reduce by rule 61
+	T_INTADD	reduce by rule 61
+	T_INTSUB	reduce by rule 61
+	T_INTMUL	reduce by rule 61
+	T_INTDIV	reduce by rule 61
+	T_INTMOD	reduce by rule 61
+	T_DO	reduce by rule 61
+	T_THEN	reduce by rule 61
+	T_LE	reduce by rule 61
+	T_GE	reduce by rule 61
+	T_LT	reduce by rule 61
+	T_GT	reduce by rule 61
+	T_EQ	reduce by rule 61
+	T_NEQ	reduce by rule 61
+
+
+	.	error
+
+
+state 114:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp T_RATSUB exp .  (reduce by rule 60)
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 60
+	T_SEMI	reduce by rule 60
+	T_AND	reduce by rule 60
+	T_OR	reduce by rule 60
+	T_RPAREN	reduce by rule 60
+	T_RATADD	reduce by rule 60
+	T_RATSUB	reduce by rule 60
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 60
+	T_INTSUB	reduce by rule 60
+	T_INTMUL	reduce by rule 60
+	T_INTDIV	reduce by rule 60
+	T_INTMOD	reduce by rule 60
+	T_DO	reduce by rule 60
+	T_THEN	reduce by rule 60
+	T_LE	reduce by rule 60
+	T_GE	reduce by rule 60
+	T_LT	reduce by rule 60
+	T_GT	reduce by rule 60
+	T_EQ	reduce by rule 60
+	T_NEQ	reduce by rule 60
+
+
+	.	error
+
+
+state 115:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp T_RATADD exp .  (reduce by rule 59)
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 59
+	T_SEMI	reduce by rule 59
+	T_AND	reduce by rule 59
+	T_OR	reduce by rule 59
+	T_RPAREN	reduce by rule 59
+	T_RATADD	reduce by rule 59
+	T_RATSUB	reduce by rule 59
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	reduce by rule 59
+	T_INTSUB	reduce by rule 59
+	T_INTMUL	reduce by rule 59
+	T_INTDIV	reduce by rule 59
+	T_INTMOD	reduce by rule 59
+	T_DO	reduce by rule 59
+	T_THEN	reduce by rule 59
+	T_LE	reduce by rule 59
+	T_GE	reduce by rule 59
+	T_LT	reduce by rule 59
+	T_GT	reduce by rule 59
+	T_EQ	reduce by rule 59
+	T_NEQ	reduce by rule 59
+
+
+	.	error
+
+
+state 116:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp T_OR exp .  (reduce by rule 48)
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 48
+	T_SEMI	reduce by rule 48
+	T_AND	shift 89
+	T_OR	reduce by rule 48
+	T_RPAREN	reduce by rule 48
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 48
+	T_THEN	reduce by rule 48
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 117:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp T_AND exp .  (reduce by rule 49)
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+
+	T_COMMA	reduce by rule 49
+	T_SEMI	reduce by rule 49
+	T_AND	reduce by rule 49
+	T_OR	reduce by rule 49
+	T_RPAREN	reduce by rule 49
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_DO	reduce by rule 49
+	T_THEN	reduce by rule 49
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 118:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	exp : T_MAKERAT T_LPAREN exp . T_COMMA exp T_RPAREN 
+
+	T_COMMA	shift 124
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 119:
+
+	exp : T_LPAREN exp T_RPAREN .  (reduce by rule 51)
+
+	T_COMMA	reduce by rule 51
+	T_SEMI	reduce by rule 51
+	T_AND	reduce by rule 51
+	T_OR	reduce by rule 51
+	T_RPAREN	reduce by rule 51
+	T_RATADD	reduce by rule 51
+	T_RATSUB	reduce by rule 51
+	T_RATMUL	reduce by rule 51
+	T_RATDIV	reduce by rule 51
+	T_INTADD	reduce by rule 51
+	T_INTSUB	reduce by rule 51
+	T_INTMUL	reduce by rule 51
+	T_INTDIV	reduce by rule 51
+	T_INTMOD	reduce by rule 51
+	T_DO	reduce by rule 51
+	T_THEN	reduce by rule 51
+	T_LE	reduce by rule 51
+	T_GE	reduce by rule 51
+	T_LT	reduce by rule 51
+	T_GT	reduce by rule 51
+	T_EQ	reduce by rule 51
+	T_NEQ	reduce by rule 51
+
+
+	.	error
+
+
+state 120:
+
+	while_cmd : T_WHILE exp T_DO cmd_seq . T_OD 
+
+	T_OD	shift 125
+
+
+	.	error
+
+
+state 121:
+
+	print_cmd : T_PRINT T_LPAREN exp T_RPAREN .  (reduce by rule 28)
+
+	T_SEMI	reduce by rule 28
+
+
+	.	error
+
+
+state 122:
+
+	read_cmd : T_READ T_LPAREN T_IDENT T_RPAREN .  (reduce by rule 27)
+
+	T_SEMI	reduce by rule 27
+
+
+	.	error
+
+
+state 123:
+
+	if_cmd : T_IF exp T_THEN cmd_seq T_ELSE . cmd_seq T_FI 
+
+	T_LCURLY	shift 19
+
+	cmd_seq	goto 126
+
+	.	error
+
+
+state 124:
+
+	exp : T_MAKERAT T_LPAREN exp T_COMMA . exp T_RPAREN 
+
+	T_IDENT	shift 62
+	T_BOOLVAL	shift 61
+	T_NOT	shift 60
+	T_LPAREN	shift 59
+	T_INVERSE	shift 58
+	T_MAKERAT	shift 57
+	T_RATFROMINT	shift 56
+	T_RATVAL	shift 55
+	T_INTVAL	shift 54
+	T_ADDINV	shift 53
+
+	exp	goto 127
+
+	.	error
+
+
+state 125:
+
+	while_cmd : T_WHILE exp T_DO cmd_seq T_OD .  (reduce by rule 29)
+
+	T_SEMI	reduce by rule 29
+
+
+	.	error
+
+
+state 126:
+
+	if_cmd : T_IF exp T_THEN cmd_seq T_ELSE cmd_seq . T_FI 
+
+	T_FI	shift 128
+
+
+	.	error
+
+
+state 127:
+
+	exp : exp . T_LE exp 
+	exp : exp . T_GE exp 
+	exp : exp . T_LT exp 
+	exp : exp . T_GT exp 
+	exp : exp . T_EQ exp 
+	exp : exp . T_NEQ exp 
+	exp : exp . T_OR exp 
+	exp : exp . T_AND exp 
+	exp : exp . T_INTADD exp 
+	exp : exp . T_INTSUB exp 
+	exp : exp . T_INTMUL exp 
+	exp : exp . T_INTDIV exp 
+	exp : exp . T_INTMOD exp 
+	exp : exp . T_RATADD exp 
+	exp : exp . T_RATSUB exp 
+	exp : exp . T_RATMUL exp 
+	exp : exp . T_RATDIV exp 
+	exp : T_MAKERAT T_LPAREN exp T_COMMA exp . T_RPAREN 
+
+	T_AND	shift 89
+	T_OR	shift 88
+	T_RPAREN	shift 129
+	T_RATADD	shift 87
+	T_RATSUB	shift 86
+	T_RATMUL	shift 85
+	T_RATDIV	shift 84
+	T_INTADD	shift 83
+	T_INTSUB	shift 82
+	T_INTMUL	shift 81
+	T_INTDIV	shift 80
+	T_INTMOD	shift 79
+	T_LE	shift 77
+	T_GE	shift 76
+	T_LT	shift 75
+	T_GT	shift 74
+	T_EQ	shift 73
+	T_NEQ	shift 72
+
+
+	.	error
+
+
+state 128:
+
+	if_cmd : T_IF exp T_THEN cmd_seq T_ELSE cmd_seq T_FI .  (reduce by rule 30)
+
+	T_SEMI	reduce by rule 30
+
+
+	.	error
+
+
+state 129:
+
+	exp : T_MAKERAT T_LPAREN exp T_COMMA exp T_RPAREN .  (reduce by rule 64)
+
+	T_COMMA	reduce by rule 64
+	T_SEMI	reduce by rule 64
+	T_AND	reduce by rule 64
+	T_OR	reduce by rule 64
+	T_RPAREN	reduce by rule 64
+	T_RATADD	reduce by rule 64
+	T_RATSUB	reduce by rule 64
+	T_RATMUL	reduce by rule 64
+	T_RATDIV	reduce by rule 64
+	T_INTADD	reduce by rule 64
+	T_INTSUB	reduce by rule 64
+	T_INTMUL	reduce by rule 64
+	T_INTDIV	reduce by rule 64
+	T_INTMOD	reduce by rule 64
+	T_DO	reduce by rule 64
+	T_THEN	reduce by rule 64
+	T_LE	reduce by rule 64
+	T_GE	reduce by rule 64
+	T_LT	reduce by rule 64
+	T_GT	reduce by rule 64
+	T_EQ	reduce by rule 64
+	T_NEQ	reduce by rule 64
+
+
+	.	error
+
+
+state 130:
+
+
+	EOF	accept
+
+
+	.	error
+
+828 of 1247 action table entries left after compaction
+79 goto table entries
