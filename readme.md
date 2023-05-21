@@ -47,6 +47,9 @@ Instructions for use :
 - Run the command "sml run.sml"
 - Use the execute function, specifying the input and output files
 
+## Instructions for Use
+1. Compile the SML file run.sml
+2. Use the interpret function with two string arguments, the input and the output files to run the contents of the input file, and put the corresponding results in the output file.
 
 ## Implementation Overview 
 
